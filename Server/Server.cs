@@ -8,9 +8,7 @@ namespace Server
     {
         private TcpListener listener;
         private TcpClient client;
-        List<int> numbers = new();
-        bool AllInt = true;
-
+        
         public Server()
         {
             InitializeComponent();
@@ -45,9 +43,11 @@ namespace Server
                     string input = Encoding.UTF8.GetString(buffer, 0, inputcount);
                     textBox_Input.AppendText("> " + input + Environment.NewLine);
 
-                    string[] message = input.Split(new char[] {' ', ',', '.', ';', ':'});
+                    string[] digit_message = input.Split(new char[] {' ', ',', '.', ';', ':'});
 
-                    foreach (string part in message)
+                    List<int> numbers = new();
+                    bool AllInt = true;
+                    foreach (string part in digit_message)
                     {
                         if (int.TryParse(part.Trim(), out int number))
                         {
@@ -63,6 +63,29 @@ namespace Server
                         byte[] output = Encoding.UTF8.GetBytes(string.Join(", ", sortednumbers));
                         await stream.WriteAsync(output, 0, output.Length);
                         numbers.Clear();
+                    }
+                    else
+                    {
+                        List<char> string_message = new();
+                        foreach (char part in input)
+                        {
+                            string_message.Add(part);
+                        }
+                        Random random = new();
+                        int replace_count = string_message.Count / 2;
+                        char temp;
+                        int position_old;
+                        int position_new;
+                        for (int i = 0; i < replace_count; i++)
+                        {
+                            position_old = random.Next(0, string_message.Count);
+                            position_new = random.Next(0, string_message.Count);
+                            temp = string_message[position_old];
+                            string_message[position_old] = string_message[position_new];
+                            string_message[position_new] = temp;
+                        }
+                        byte[] output = Encoding.UTF8.GetBytes(string.Join("", string_message));
+                        await stream.WriteAsync(output, 0, output.Length);
                     }
                 }
                 toolStripStatusLabel.Text = "Disconnected";
