@@ -106,13 +106,16 @@ namespace Client
 
         private async void button_EXIT_Click(object sender, EventArgs e)
         {
-            stream?.Dispose();
-            client?.Dispose();
             toolStripStatusLabel.Text = "No connection to server";
 
             button_EXIT.ForeColor = Color.FromArgb(238, 75, 43);
             await Task.Delay(100);
             button_EXIT.ForeColor = Color.FromArgb(210, 4, 45);
+
+            client?.Dispose();
+            stream?.Dispose();
+            await Task.Delay(200);
+            Client.ActiveForm!.Dispose();
         }
 
         private void textBox_Output_KeyPress(object sender, KeyPressEventArgs e)

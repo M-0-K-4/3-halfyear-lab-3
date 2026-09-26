@@ -46,7 +46,7 @@ namespace Server
                     string[] digit_message = input.Split(new char[] {' ', ',', '.', ';', ':'});
 
                     List<int> numbers = new();
-                    bool AllInt = true;
+                    bool AllInt = false;
                     foreach (string part in digit_message)
                     {
                         if (int.TryParse(part.Trim(), out int number))
@@ -55,7 +55,10 @@ namespace Server
                             AllInt = true;
                         }                                                      
                         else
+                        {
                             AllInt = false;
+                            break;
+                        }                            
                     }
                     if (AllInt == true)
                     {

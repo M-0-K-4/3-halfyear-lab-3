@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Client));
             label_Output = new Label();
             textBox_Output = new TextBox();
             label_Input = new Label();
@@ -165,6 +166,7 @@
             ClientSize = new Size(684, 761);
             Controls.Add(statusStrip1);
             Controls.Add(panel);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Location = new Point(173, 130);
             MaximumSize = new Size(700, 800);
             MinimumSize = new Size(700, 800);
